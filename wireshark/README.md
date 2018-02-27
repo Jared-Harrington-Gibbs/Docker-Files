@@ -1,4 +1,5 @@
 A headless wireshark instance that can be connected to via RDP.
+It can run with less privileges than other similar containers and also does not depend on having a display connected.
 
 It can be launched by running:
 ```
