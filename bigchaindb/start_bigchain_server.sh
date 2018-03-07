@@ -1,22 +1,33 @@
 sudo useradd -r --uid 999 mongodb
 
-if [ $? -eq 0 ]; then
-    mkdir $HOME/bigchain && cd $HOME/bigchain
-fi
+mkdir $HOME/bigchain
+sudo rm $HOME/bigchain/* -rf
+cd $HOME/bigchain
 
-if [ $? -eq 0 ]; then
-    docker run --name=mongodb --detach --restart=always --volume=$HOME/bigchain/mongodb_docker/db:/data/db  --volume=$HOME/bigchain/mongodb_docker/configdb:/data/configdb mongo:3.4.9  --replSet=bigchain-rs
-fi
+docker network create mynet
 
-if [ $? -eq 0 ]; then
-    mongodbIP=$(docker inspect --format={{.NetworkSettings.IPAddress}} mongodb)
-fi
+docker run --name=mongodb \
+  --detach \
+  --net mynet \
+  --restart=always \
+  --volume=$HOME/bigchain/mongodb_docker/db:/data/db \
+  --volume=$HOME/bigchain/mongodb_docker/configdb:/data/configdb \
+  mongo:3.4.9 --replSet=bigchain-rs
 
-if [ $? -eq 0 ]; then
-    docker run --interactive --rm --tty --volume $HOME/bigchain/bigchaindb_docker:/data  --env BIGCHAINDB_DATABASE_HOST=$mongodbIP bigchaindb/bigchaindb -y configure mongodb
-fi
+mongodbIP=$(docker inspect --format={{.NetworkSettings.Networks.mynet.IPAddress}} mongodb)
 
-if [ $? -eq 0 ]; then
-    docker run --name=bigchaindb --detach --publish=59984:9984  --restart=always  --volume=$HOME/bigchain/bigchaindb_docker:/data bigchaindb/bigchaindb start
-fi
+docker run --interactive \
+  --rm \
+  --tty \
+  --net mynet \
+  --volume $HOME/bigchain/bigchaindb_docker:/data \
+  --env BIGCHAINDB_DATABASE_HOST=$mongodbIP bigchaindb/bigchaindb -y configure mongodb
+
+docker run --name=bigchaindb \
+  --detach \
+  --net mynet \
+  --publish=59984:9984 \
+  --restart=always \
+  --volume=$HOME/bigchain/bigchaindb_docker:/data \
+  bigchaindb/bigchaindb start
 
