@@ -7,7 +7,7 @@ from sys import exit
 alice, bob = generate_keypair(), generate_keypair()
 
 
-bdb_root_url = 'http://172.31.9.104:59984/'  # Use YOUR BigchainDB Root URL here
+bdb_root_url = 'http://bigchaindb:9984/'  # Use YOUR BigchainDB Root URL here
 bdb = BigchainDB(bdb_root_url)
 
 
