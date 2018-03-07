@@ -1,6 +1,6 @@
 FROM ubuntu:17.10
 LABEL maintainer="Jared Harrington-Gibbs"
-LABEL description="A docker image that runs can connect to bigchaindb instances."
+LABEL description="A docker image that can connect to bigchaindb instances."
 
 RUN apt-get update && \ 
     DEBIAN_FRONTEND=noninteractive apt-get install -y python3.5 python3-pip libffi-dev libssl-dev && \
