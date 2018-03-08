@@ -1,10 +1,9 @@
-#create the mongodb user
+#create the mongodb user on linux
 sudo useradd -r --uid 999 mongodb
 
-#make the bigchain storage directory
-mkdir $HOME/bigchain
+#clean the bigchain storage directory
+rm $HOME/bigchain/* -rf
 sudo rm $HOME/bigchain/* -rf
-cd $HOME/bigchain
 
 #Create the bigchain network
 docker network create bigchainnet
@@ -14,8 +13,6 @@ docker run --name=mongodb \
   --detach \
   --net bigchainnet \
   --restart=always \
-  --volume=$HOME/bigchain/mongodb_docker/db:/data/db \
-  --volume=$HOME/bigchain/mongodb_docker/configdb:/data/configdb \
   mongo:3.4.9 --replSet=bigchain-rs
 
 #Get the mongodb ip address
