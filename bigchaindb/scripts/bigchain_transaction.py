@@ -11,6 +11,7 @@ bdb_root_url = 'http://bigchaindb:9984/'  # Use YOUR BigchainDB Root URL here
 bdb = BigchainDB(bdb_root_url)
 
 
+# create asset (for example, a bicyclye), then assign it data and values
 bicycle_asset = {
     'data': {
         'bicycle': {
