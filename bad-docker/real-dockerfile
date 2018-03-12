@@ -1,0 +1,6 @@
+FROM ubuntu:17.10
+
+RUN echo "I'm a bad docker!?!?!" > bye.txt
+
+CMD ["cat","bye.txt"]
+
