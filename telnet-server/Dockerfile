@@ -2,11 +2,8 @@ FROM ubuntu:17.10
 LABEL maintainer="Jared Harrington-Gibbs"
 LABEL description="A docker running a completely insecure telnet server"
 
-ENV DISPLAY=":1.0"
-
 RUN apt-get update && \ 
     DEBIAN_FRONTEND=noninteractive apt-get -y install telnetd xinetd && \
-		service xinetd start && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/* && \
