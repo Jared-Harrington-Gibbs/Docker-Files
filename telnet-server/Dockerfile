@@ -20,7 +20,7 @@ RUN apt-get update && \
     server          = /usr/sbin/in.telnetd \n \
     log_on_failure  += USERID \n \
     }" | tee -a /etc/xinetd.d/telnet && \
-		echo "pts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\npts/7\npts/8\npts/9\n" | tee -a /etc/securetty
+		rm -f /etc/securetty
 
 ENTRYPOINT ["bash"]
 CMD ["-c","xinetd -dontfork -stayalive"]
